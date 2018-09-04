@@ -16,6 +16,7 @@ class Api::ProductsController < ApplicationController
                          
                           name: params[:name],
                           price: params[:price],
+                          instock: params[:instock],
                           description: params[:description],
                           image_url: params[:image_url]
 
@@ -30,6 +31,7 @@ class Api::ProductsController < ApplicationController
 
     @product.name = params[:name] || @product.name
     @product.price = params[:price] || @product.price
+    @product.instock = params[:instock] || @product.instock
     @product.description = params[:description] || @product.description
     @product.image_url = params[:image_url] || @product.image_url
   
