@@ -2,6 +2,25 @@ class Api::ProductsController < ApplicationController
   protect_from_forgery with: :null_session
   def index
     @products = Product.all
+
+    search_term = params[:search]
+    if search_term 
+      @products = Product.where(
+                                "name iLIKE ? OR price iLIKE ",
+                                "%#{search_term}%",
+                                 "%#{search_term}%" 
+                               )
+    end
+    
+    sort_attribute = params[:sort]
+    sort_order = params[:sort_order]
+    
+    if sort_attribute && sort_order
+      @products = @products.order(sort_attribute => sort_order)
+    else sort_order
+      @products = @product.order(sort_attribute)
+    end
+
     render 'index.json.jbuilder' 
   end
 
