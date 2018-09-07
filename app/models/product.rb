@@ -8,9 +8,7 @@ validates :image_url, uniqueness: true
 validates :price, presence: true
 validates :price, numericality: { greater_than: 0 }
 
-
-
-
+  belongs_to :supplier
 
   def is_discounted?
     price < 1500
