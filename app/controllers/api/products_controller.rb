@@ -1,25 +1,23 @@
 class Api::ProductsController < ApplicationController
-  protect_from_forgery with: :null_session
+  
   def index
-    @products = Product.all
 
-    # search_term = params[:search]
-    # if search_term 
-    #   @products = Product.where(
-    #                             "name iLIKE ? OR price iLIKE ",
-    #                             "%#{search_term}%",
-    #                              "%#{search_term}%" 
-    #                            )
-    # end
+    search_term = params[:search]
+    sort_attribute = params[:sort]
+    sort_order = params[:sort_order]
+
+     @products = Product.all
+
+    if search_term 
+      @products = products.where("name iLIKE ?", "%#{search_term}%")
+    end
     
-    # sort_attribute = params[:sort]
-    # sort_order = params[:sort_order]
     
-    # if sort_attribute && sort_order
-    #   @products = @products.order(sort_attribute => sort_order)
-    # else sort_order
-    #   @products = @product.order(sort_attribute)
-    # end
+    if sort_order && sort_attribute
+      @products = @products.order(sort_attribute => sort_order)
+    elsif sort_attribute
+      @products = @product.order(sort_attribute)
+    end
 
      render 'index.json.jbuilder' 
    end
@@ -36,9 +34,8 @@ class Api::ProductsController < ApplicationController
                           name: params[:name],
                           price: params[:price],
                           instock: params[:instock],
-                          description: params[:description],
-                          image_url: params[:image_url]
-
+                          description: params[:description]
+                  
                          )
 
     if @product.save
@@ -55,7 +52,6 @@ class Api::ProductsController < ApplicationController
     @product.price = params[:price] || @product.price
     @product.instock = params[:instock] || @product.instock
     @product.description = params[:description] || @product.description
-    @product.image_url = params[:image_url] || @product.image_url
   
     
     if @product.save

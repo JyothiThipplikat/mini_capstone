@@ -5,7 +5,12 @@ json.instock product.instock
 json.tax product.tax
 json.total product.total
 json.description product.description
-json.image_url product.image_url
+
+json.current_user product.current_user
+
+json.images do
+  json.array! product.images, partial: 'api/images/image', as: :image 
+end
 
 json.discounted product.is_discounted?
 
@@ -15,6 +20,8 @@ json.formatted do
   json.total number_to_currency(product.total)
 end
 
-# if @product.is_discounted?
-#   json.sale_message "Discounted Price"
-# end
+json.supplier do 
+  json.partial! product.supplier, partial: 'api/suppliers/supplier', as: :supplier
+end
+
+
