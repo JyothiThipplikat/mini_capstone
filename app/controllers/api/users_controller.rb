@@ -9,6 +9,7 @@ class Api::UsersController < ApplicationController
 
                     )
 
+    
     if user.save
       render json: {message: 'User created successfully'}, status: :created
     else

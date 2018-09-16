@@ -1,5 +1,6 @@
 class Api::ProductsController < ApplicationController
-  
+  before_action :authenticate_admin, except: [:index, :show]
+
   def index
 
     search_term = params[:search]
@@ -7,6 +8,12 @@ class Api::ProductsController < ApplicationController
     sort_order = params[:sort_order]
 
      @products = Product.all
+
+     category_name = params[:category]
+     if category_name
+      category = Category.find_by(name: category_name)
+      @products = category.products
+     end
 
     if search_term 
       @products = products.where("name iLIKE ?", "%#{search_term}%")
@@ -28,8 +35,7 @@ class Api::ProductsController < ApplicationController
   end
 
   def create
-
-    @product = Product.new(
+        @product = Product.new(
                          
                           name: params[:name],
                           price: params[:price],
@@ -38,11 +44,11 @@ class Api::ProductsController < ApplicationController
                   
                          )
 
-    if @product.save
-      render 'show.json.jbuilder'
-    else
-      render json: {errors: @product.errors.full_messages}, status: :unprocessable_entity
-    end
+      if @product.save
+        render 'show.json.jbuilder'
+      else
+        render json: {errors: @product.errors.full_messages}, status: :unprocessable_entity
+      end
   end
 
   def update
