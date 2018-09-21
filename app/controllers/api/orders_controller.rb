@@ -9,17 +9,30 @@ end
 
 
   def create 
+    carted_products = current_user.cart
+    @order = Order.new[user_id: current_user.id]
+
+   subtotal = 0
+    carted_product.each do |carted_product|
+    subtotal = carted_product.quantity * carted_product.carted_product.price
+    end
+
+    tax = subtotal + 0.09
+
+    total = subtotal + tax
+
     @order = Order.new(
                       user_id: current_user.id,
-                      product_id: params[:product_id],
-                      quantity: params[:quantity] 
+                      subtotal: subtotal,
+                      tax: tax,
+                      total: total
                       )
 
   
-    @order.build_totals
     @order.save
 
-    render 'show.json.jbuilder'
+    carted_product.update_all(status: 'purchased', order_id: @order.id)
 
+    render 'show.json.jbuilder'
   end
 end
