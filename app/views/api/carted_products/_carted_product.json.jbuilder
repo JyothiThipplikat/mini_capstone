@@ -4,5 +4,5 @@ json.user_id carted_product.user_id
 json.status carted_product.status
 json.quantity carted_product.quantity
 json.product do 
-  json.partial! carted_product.product, partial: 'api/products.product', as: :product
+  json.partial! carted_product.product, partial: 'api/products/product', as: :product
 end

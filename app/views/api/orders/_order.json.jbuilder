@@ -5,10 +5,9 @@ json.tax order.tax
 json.total order.total
 
 json.formatted do
-  json.price number_to_currency(@order.product.price)
-  json.subtotal number_to_currency(@order.subtotal)
-  json.tax number_to_currency(@order.tax)
-  json.total number_to_currency(@order.total)
+  json.subtotal number_to_currency(order.subtotal)
+  json.tax number_to_currency(order.tax)
+  json.total number_to_currency(order.total)
 end
 
 json.products do 
