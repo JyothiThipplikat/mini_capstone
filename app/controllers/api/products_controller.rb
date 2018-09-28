@@ -1,5 +1,5 @@
 class Api::ProductsController < ApplicationController
-  before_action :authenticate_admin, except: [:index, :show]
+  # before_action :authenticate_admin, except: [:index, :show]
 
   def index
 
@@ -41,7 +41,7 @@ class Api::ProductsController < ApplicationController
                           price: params[:price],
                           instock: params[:instock],
                           description: params[:description]
-                  
+
                          )
 
       if @product.save
