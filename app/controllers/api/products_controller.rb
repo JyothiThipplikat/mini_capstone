@@ -35,20 +35,21 @@ class Api::ProductsController < ApplicationController
   end
 
   def create
-        @product = Product.new(
+    @product = Product.new(
                          
                           name: params[:name],
                           price: params[:price],
                           instock: params[:instock],
-                          description: params[:description]
+                          description: params[:description],
+                          supplier_id: params[:supplier_id]
 
-                         )
+                          )
 
-      if @product.save
-        render 'show.json.jbuilder'
-      else
-        render json: {errors: @product.errors.full_messages}, status: :unprocessable_entity
-      end
+    if @product.save
+      render 'show.json.jbuilder'
+    else
+      render json: {errors: @product.errors.full_messages}, status: :unprocessable_entity
+    end
   end
 
   def update
